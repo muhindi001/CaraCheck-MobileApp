@@ -1,3 +1,4 @@
+import 'package:carecheck/components/DoctorDetailPage.dart';
 import 'package:flutter/material.dart';
 
 class AppointmentCard extends StatelessWidget {
@@ -5,6 +6,13 @@ class AppointmentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void _showDatePicker() {
+      showDateRangePicker(
+        context: context, 
+        firstDate: DateTime(2000), 
+        lastDate: DateTime(2025)
+        );
+    }
     return Container(
       padding: const EdgeInsets.all(20),
       width: double.infinity,
@@ -49,18 +57,24 @@ class AppointmentCard extends StatelessWidget {
 
           Row(
             children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white),
-                onPressed: () {},
+              MaterialButton(
+                onPressed: _showDatePicker,
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
                 child: const Text(
-                  "Re-Schedule",
-                  style: TextStyle(color: Colors.black),
+                  "Reschedule",
+                  style: TextStyle(color: Colors.green),
                 ),
               ),
               const SizedBox(width: 10),
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DoctorDetailPage())
+                    );
+                },
                 style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: Colors.white)),
                 child: const Text(

@@ -218,10 +218,7 @@ class _HomepageState extends State<Homepage> {
           BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.credit_card), label: "Card"),
           BottomNavigationBarItem(icon: Icon(Icons.receipt), label: "Bill"),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: "Profile",
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.person_outline),label: "Profile",),
         ],
       ),
     );
