@@ -7,6 +7,8 @@ class Message {
   final bool isLiked;
   final bool unread;
 
+  static var length;
+
   Message({
     required this.sender,
     required this.time,
