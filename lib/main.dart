@@ -1,4 +1,4 @@
-import 'package:carecheck/SplashScreen/Splash.dart';
+import 'package:carecheck/SplashScreen/SplashScreen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Splash(),
+      home: SplashScreen(),
     );
   }
 }

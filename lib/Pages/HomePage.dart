@@ -1,4 +1,6 @@
-import 'package:carecheck/Pages/Settings.dart';
+// import 'package:carecheck/Pages/Settings.dart';
+import 'package:carecheck/Pages/Card_Page.dart';
+import 'package:carecheck/Pages/Bill_Page.dart';
 import 'package:carecheck/components/All_Doctor.dart';
 import 'package:carecheck/components/AppointmentCard.dart';
 import 'package:carecheck/components/DoctorsCategory.dart';
@@ -12,66 +14,26 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "CareCheck",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.notifications, color: Colors.white, size: 30),
-            onPressed: () {
-              // Handle notification icon press
-            },
-          ),
-        ],
-        backgroundColor: Colors.green[400],
-      ),
-      drawer: Drawer(
-        child: Container(
-          color: Colors.grey[300],
-          child: ListView(
-            children: [
-              DrawerHeader(
-                child: Center(
-                  child: Text(
-                    "CareCheck",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.home),
-                title: Text("Home", style: TextStyle(fontSize: 20)),
-                onTap: () {
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                  // ));
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.settings),
-                title: Text("Settings", style: TextStyle(fontSize: 20)),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Settings()),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-      backgroundColor: Colors.grey[200],
-      body: SafeArea(
+  int _selectedIndex = 0;
+  bool _paymentCompleted = false;
+  String _lastPaidAmount = '';
+
+  Widget _buildBody() {
+    if (_selectedIndex == 0) {
+      return SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              if (_paymentCompleted)
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(12),
+                  margin: EdgeInsets.only(bottom: 12),
+                  decoration: BoxDecoration(color: Colors.green[50], borderRadius: BorderRadius.circular(8), border: Border.all(color: Colors.green)),
+                  child: Text('Payment successful: $_lastPaidAmount', style: TextStyle(color: Colors.green[900], fontWeight: FontWeight.w600)),
+                ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -208,12 +170,110 @@ class _HomepageState extends State<Homepage> {
             ],
           ),
         ),
+      );
+    }
+
+    if (_selectedIndex == 1) return CardPage(onPayment: (amount) {
+      setState(() {
+        _paymentCompleted = true;
+        _lastPaidAmount = amount;
+        _selectedIndex = 0; // return to home after payment (optional)
+      });
+    });
+    if (_selectedIndex == 2) return BillPage();
+    return Center(
+      child: Text(
+        'Profile Page',
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String appBarTitle;
+    switch (_selectedIndex) {
+      case 1:
+        appBarTitle = 'Card';
+        break;
+      case 2:
+        appBarTitle = 'Bill';
+        break;
+      case 3:
+        appBarTitle = 'Profile';
+        break;
+      default:
+        appBarTitle = 'CareCheck';
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          appBarTitle,
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.notifications, color: Colors.white, size: 30),
+            onPressed: () {
+              // Handle notification icon press
+            },
+          ),
+        ],
+        backgroundColor: Colors.green[400],
+      ),
+      drawer: _selectedIndex == 0
+          ? Drawer(
+              child: Container(
+                color: Colors.grey[300],
+                child: ListView(
+                  children: [
+                    DrawerHeader(
+                      child: Center(
+                        child: Text(
+                          "CareCheck",
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+                        ),
+                      ),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.home),
+                      title: Text("Home", style: TextStyle(fontSize: 20)),
+                      onTap: () {
+                        setState(() {
+                          _selectedIndex = 0;
+                        });
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.settings),
+                      title: Text("Settings", style: TextStyle(fontSize: 20)),
+                      onTap: () {
+                        setState(() {
+                          _selectedIndex = 3;
+                        });
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : null,
+      backgroundColor: Colors.grey[200],
+      body: _buildBody(),
       // BOTTOM NAV
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.blue,
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.green[400],
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
+        onTap: (int index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.credit_card), label: "Card"),
@@ -224,3 +284,4 @@ class _HomepageState extends State<Homepage> {
     );
   }
 }
+

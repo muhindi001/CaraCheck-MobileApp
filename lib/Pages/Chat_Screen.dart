@@ -18,7 +18,10 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    messages = Chats.where((m) => m.sender.id == widget.user.id || m.sender.id == greg.id).toList().reversed.toList();
+    messages =
+        Chats.where(
+          (m) => m.sender.id == widget.user.id || m.sender.id == greg.id,
+        ).toList().reversed.toList();
   }
 
   @override
@@ -179,7 +182,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               textInputAction: TextInputAction.send,
                               onSubmitted: _sendMessage,
                               decoration: const InputDecoration(
-                                hintText: 'Type a message',
+                                hintText: 'Type a message....',
                                 border: InputBorder.none,
                               ),
                             ),

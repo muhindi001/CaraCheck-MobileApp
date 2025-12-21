@@ -8,6 +8,12 @@ class Settings extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         // backgroundColor: Colors.green,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.notifications, color: Colors.white),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: Center(
         child: Text("Settings"),
