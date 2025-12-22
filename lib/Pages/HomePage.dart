@@ -5,6 +5,7 @@ import 'package:carecheck/components/All_Doctor.dart';
 import 'package:carecheck/components/AppointmentCard.dart';
 import 'package:carecheck/components/DoctorsCategory.dart';
 import 'package:flutter/material.dart';
+import 'package:carecheck/Pages/Doctor_Assistant.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -270,6 +271,13 @@ class _HomepageState extends State<Homepage> {
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
         onTap: (int index) {
+          if (index == 3) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DoctorAssistant()),
+            );
+            return;
+          }
           setState(() {
             _selectedIndex = index;
           });
@@ -278,6 +286,7 @@ class _HomepageState extends State<Homepage> {
           BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.credit_card), label: "Card"),
           BottomNavigationBarItem(icon: Icon(Icons.receipt), label: "Bill"),
+          BottomNavigationBarItem(icon: Icon(Icons.local_hospital,color: Colors.red,), label: "DoctorAssistant"),
           BottomNavigationBarItem(icon: Icon(Icons.person_outline),label: "Profile",),
         ],
       ),
